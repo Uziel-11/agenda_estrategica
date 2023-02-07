@@ -6,6 +6,7 @@ var logger = require('morgan');
 const cors = require('cors')
 
 var indexRouter = require('./routes/index');
+var actividadRouter = require('./routes/actividad');
 
 var app = express();
 
@@ -24,6 +25,7 @@ app.use(cors())
 //servidor recibe la ruta
 
 app.use('/', indexRouter);
+app.use('/actividad', actividadRouter);
 
 
 // catch 404 and forward to error handler
