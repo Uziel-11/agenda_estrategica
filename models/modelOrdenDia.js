@@ -1,8 +1,8 @@
 const bd= require("../configMysql");
 
 module.exports = {
-    consultDirectorio: (callback)=>{
-        let sql = 'SELECT * FROM directorio'
+    consultOrdenesDiaActividad: (callback)=>{
+        let sql = 'SELECT * FROM ordenDia'
         bd.query(sql, (err, data) => {
             if (err) throw err
             if (data.length>0)
@@ -12,8 +12,8 @@ module.exports = {
         })
     },
 
-    consultDirectorioPorId: (id,callback)=>{
-        let sql = 'SELECT * FROM directorio WHERE id = ?'
+    consultOrdenDiaActividadPorId: (id,callback)=>{
+        let sql = 'SELECT * FROM ordenDia WHERE id = ?'
         bd.query(sql,id, (err, data) => {
             if (err) throw err
             if (data.length>0)
@@ -23,8 +23,8 @@ module.exports = {
         })
     },
 
-    ConsultUserDirectorioPorParametro:(param, callback) => {
-        let sql = 'SELECT * FROM directorio WHERE '+ param[0] + ' = ?';
+    consultOrdenDiaActividadPorParametro:(param, callback) => {
+        let sql = 'SELECT * FROM ordenDia WHERE '+ param[0] + ' = ?';
         db.query(sql,param[1], (err, data) => {
             if (err) throw err
             return callback(data)
@@ -32,9 +32,9 @@ module.exports = {
     },
 
 
-    insertDirectorio: (usuarioDirectorio,callback)=>{
-        let sql = 'INSERT INTO directorio SET ?'
-        bd.query(sql,usuarioDirectorio,(err,data)=>{
+    insertOrdenDiaActividad: (ordenDia,callback)=>{
+        let sql = 'INSERT INTO ordenDia SET ?'
+        bd.query(sql,ordenDia,(err,data)=>{
             if(err)
                 //Si hay error entonces la isnsercion no fue exitosa
                 //en vez de tronar retorno un null
@@ -45,8 +45,8 @@ module.exports = {
         })
     },
 
-    deleteUserDirectorio: (id,callback)=>{
-        let sql = 'DELETE FROM directorio WHERE id = ?'
+    deleteOrdenDiaActividad: (id,callback)=>{
+        let sql = 'DELETE FROM ordenDia WHERE id = ?'
         bd.query(sql,id,(err,data)=>{
             if(err)
                 //Si hay error entonces la insercion no fue exitosa
@@ -58,12 +58,13 @@ module.exports = {
         })
     },
 
-    updateUserDirectorio:(usuarioDirectorio,callback)=>{
-        const datousuarioDirectorio = [usuarioDirectorio.nombre,usuarioDirectorio.apellidoPaterno,usuarioDirectorio.apellidoMaterno,usuarioDirectorio.celular,usuarioDirectorio.correo,usuarioDirectorio.fechaCumpleanio,usuarioDirectorio.area,usuarioDirectorio.organizacion,usuarioDirectorio.idMunicipio,usuarioDirectorio.sexo,usuarioDirectorio.idCargo,usuarioDirectorio.numeroInterior,usuarioDirectorio.numeroExterior,usuarioDirectorio.idUsuario,usuarioDirectorio.curp,usuarioDirectorio.departamento,usuarioDirectorio.ciudad,usuarioDirectorio.estado,usuarioDirectorio.codigoPostal,usuarioDirectorio.id]
-        let sql = ('UPDATE directorio SET nombre = ?,apellidoPaterno = ?,apellidoMaterno= ?,celular= ?,correo=?,fechaCumpleanio=?,area=?,organizacion=?,idMunicipio=?,sexo=?,idCargo=?,numeroInterior=?,numeroExterior=?,idUsuario=?,curp=?,departamento=?,ciudad=?,estado=?,codigoPostal=? WHERE id= ?');
+
+    updateOrdenDiaActividad:(ordenDia,callback)=>{
+        const datoordenDia = [ordenDia.asuntoOrdenDia,ordenDia.idActividad,ordenDia.idUsuarioResponsable,ordenDia.hora,ordenDia.idStatus,ordenDia. idUsuarioCreo,ordenDia.fechaCreo,ordenDia.idUsuarioActualizo,ordenDia.fechaActualizo,ordenDia.id]
+        let sql = ('UPDATE ordenDia SET asuntoOrdenDia = ?,idActividad = ?,idUsuarioResponsable= ?,hora= ?,idStatus=?,idUsuarioCreo=?,fechaCreo=?,idUsuarioActualizo=?,fechaActualizo=? WHERE id= ?');
 
         //let sql = 'UPDATE beekeeper SET ? WHERE id_beekeeper = ?'
-        bd.query(sql,datousuarioDirectorio,(err,data)=>{
+        bd.query(sql,datoordenDia,(err,data)=>{
             if(err)
                 //Si hay error entonces la insercion no fue exitosa
                 //en vez de tronar retorno un null
@@ -75,3 +76,4 @@ module.exports = {
         })
     },
 }
+

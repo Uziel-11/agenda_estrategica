@@ -35,6 +35,24 @@ const consultDirectorioPorId = (req,res)=>{
     })
 }
 
+const ConsultUserDirectorioPorParametro = (req, res) => {
+    const param = req._parsedUrl.query.split("=")
+
+    modelDirectorio.ConsultUserDirectorioPorParametro(param, (data) => {
+        if (data != null){
+            res.send({
+                status: true,
+                data: data
+            })
+        }else {
+            res.send({
+                status: false,
+                message: "Data Base is empty"
+            })
+        }
+    })
+}
+
 const insertUsuarioDirectorio = (req,res) =>{
     console.log("Insertando usuario en el directorio")
 
@@ -146,6 +164,7 @@ const updateUserDirectorio = (req, res) =>{
 module.exports = {
     consultDirectorio,
     consultDirectorioPorId,
+    ConsultUserDirectorioPorParametro,
     insertUsuarioDirectorio,
     deleteUserDirectorio,
     updateUserDirectorio

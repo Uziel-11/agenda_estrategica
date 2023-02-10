@@ -7,6 +7,8 @@ const cors = require('cors')
 
 var indexRouter = require('./routes/index');
 var actividadRouter = require('./routes/actividad');
+var directorioRouter = require('./routes/directorio');
+var ordenDiaRouter = require('./routes/ordenDia');
 
 var app = express();
 
@@ -26,6 +28,10 @@ app.use(cors())
 
 app.use('/', indexRouter);
 app.use('/actividad', actividadRouter);
+app.use('/ordenDia', ordenDiaRouter);
+app.use('/directorio',directorioRouter);
+
+
 
 
 // catch 404 and forward to error handler
