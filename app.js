@@ -9,6 +9,7 @@ var indexRouter = require('./routes/index');
 var actividadRouter = require('./routes/actividad');
 var directorioRouter = require('./routes/directorio');
 var ordenDiaRouter = require('./routes/ordenDia');
+var usuarioRouter = require('./routes/usuario');
 
 var app = express();
 
@@ -30,6 +31,7 @@ app.use('/', indexRouter);
 app.use('/actividad', actividadRouter);
 app.use('/ordenDia', ordenDiaRouter);
 app.use('/directorio',directorioRouter);
+app.use('/usuario',usuarioRouter)
 
 
 

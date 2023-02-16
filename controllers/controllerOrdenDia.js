@@ -48,15 +48,14 @@ const consultOrdenDiaActividadPorParametro = (req, res) => {
         }else {
             res.send({
                 status: false,
-                message: "Data Base is empty"
+                message: "No hay ningun dato para mostrar"
             })
         }
     })
 }
 
 const insertOrdenDiaActividad = (req,res) =>{
-    console.log("Insertando orden dia en la actividad")
-
+    //console.log("Insertando orden dia en la actividad")
     const {error, value} = insertarOrdenDiaActividad(req.body)
     if (error){
         console.log(error.details)
@@ -79,12 +78,12 @@ const insertOrdenDiaActividad = (req,res) =>{
             if (data && data.affectedRows ===1){
                 res.send({
                     status:true,
-                    message: 'datos insertados exitosamente'
+                    message: 'orden dia registrado exitosamente'
                 })
             }else {
                 res.send({
                     status: false,
-                    message: 'Ocurrio un problema al insertar los datos'
+                    message: 'Ocurrio un problema al registrar el orden dia de la actividad'
                 })
             }
         })
@@ -98,12 +97,12 @@ const deleteOrdenDiaActividad = (req, res) =>{
         if (data && data.affectedRows ===1){
             res.send({
                 status:true,
-                message: 'eliminada exitosamente'
+                message: 'orden dia eliminada exitosamente'
             })
         }else {
             res.send({
                 status: false,
-                message: 'Ocurrio un problema al eliminar los datos'
+                message: 'Ocurrio un problema al eliminar el orden dia'
             })
         }
     })
@@ -133,12 +132,12 @@ const updateOrdenDiaActividad = (req, res) =>{
             if (data && data.affectedRows ===1){
                 res.send({
                     status:true,
-                    message: 'datos insertados exitosamente'
+                    message: 'orden dia actualizado exitosamente'
                 })
             }else {
                 res.send({
                     status: false,
-                    message: 'Ocurrio un problema al insertar los datos'
+                    message: 'Ocurrio un problema al actualizar el orden dia de la actividad'
                 })
             }
         })

@@ -27,7 +27,7 @@ const insertUsuarioDirectorio = joi.object({
 });
 
 const updateUserDirectorio = joi.object({
-    id:joi.number(),
+
     nombre:joi.string(),
     apellidoPaterno: joi.string(),
     apellidoMaterno: joi.string(),
