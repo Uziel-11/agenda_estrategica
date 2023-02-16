@@ -1,10 +1,9 @@
-const {insertarOrdenDia} = require('../schemas/schemaOrdenDia')
-const {actualizarOrdenDia} = require('../schemas/schemaOrdenDia');
-const modelOrdenDia = require("../models/modelOrdenDia");
 
-
-const consultOrdenesDia = (req,res)=>{
-    modelOrdenDia.consultOrdenesDia((data)=>{
+const modelOrdenDiaActividad = require("../models/modelOrdenDiaActividad");
+const {insertarOrdenDiaActividad} = require("../schemas/schemaOrdenDia");
+const {actualizarOrdenDiaActividad} = require("../schemas/schemaOrdenDia")
+const consultOrdenesDiaActividad = (req,res)=>{
+    modelOrdenDiaActividad.consultOrdenesDiaActividad((data)=>{
         if ( data != null){
             res.send({
                 status: true,
@@ -19,9 +18,9 @@ const consultOrdenesDia = (req,res)=>{
     })
 }
 
-const consultOrdenDiaPorId = (req,res)=>{
+const consultOrdenDiaActividadPorId = (req,res)=>{
     const id = req.body.id
-    modelOrdenDia.consultOrdenDiaPorId(id, (data)=>{
+    modelOrdenDiaActividad.consultOrdenDiaActividadPorId(id, (data)=>{
         if ( data != null){
             res.send({
                 status: true,
@@ -36,9 +35,10 @@ const consultOrdenDiaPorId = (req,res)=>{
     })
 }
 
-const consultOrdenDiaPorParametro = (req, res) => {
+const consultOrdenDiaActividadPorParametro = (req, res) => {
     const param = req._parsedUrl.query.split("=")
-    modelOrdenDia.consultOrdenDiaPorParametro(param, (data) => {
+
+    modelOrdenDiaActividad.consultOrdenDiaActividadPorParametro(param, (data) => {
         if (data != null){
             res.send({
                 status: true,
@@ -53,46 +53,45 @@ const consultOrdenDiaPorParametro = (req, res) => {
     })
 }
 
-const insertOrdenDia = (req,res) =>{
+const insertOrdenDiaActividad = (req,res) =>{
     //console.log("Insertando orden dia en la actividad")
-    const {error, value} = insertarOrdenDia(req.body)
+    const {error, value} = insertarOrdenDiaActividad(req.body)
     if (error){
         console.log(error.details)
         return res.send(error.details)
     }else {
 
-        const ordenDia = {
-            id: req.body.id,
-            asuntoOrdenDia: req.body.asuntoOrdenDia,
-            idActividad: req.body.idActividad,
-            idUsuarioResponsable: req.body.idUsuarioResponsable,
-            hora: req.body.hora,
+        const ordenDiaActividad = {
+            idOrdenDia: req.body.idOrdenDia,
+            horaInicio: req.body.horaInicio,
+            actividad: req.body.actividad,
+            fechaLimite: req.body.fechaLimite,
             idStatus: req.body.idStatus,
             idUsuarioCreo: req.body.idUsuarioCreo,
             fechaCreo: req.body.fechaCreo,
             idUsuarioActualizo: req.body.idUsuarioActualizo,
             fechaActualizo: req.body.fechaActualizo
         }
-        modelOrdenDia.insertOrdenDia(ordenDia, (data) => {
+        modelOrdenDiaActividad.insertOrdenDiaActividad(ordenDiaActividad, (data) => {
             if (data && data.affectedRows ===1){
                 res.send({
                     status:true,
-                    message: 'orden dia registrado exitosamente'
+                    message: 'actividad del orden dia registrado exitosamente'
                 })
             }else {
                 res.send({
                     status: false,
-                    message: 'Ocurrio un problema al registrar el orden dia de la actividad'
+                    message: 'Ocurrio un problema al registrar la actividad del orden dia '
                 })
             }
         })
     }
 }
 
-const deleteOrdenDia = (req, res) =>{
+const deleteOrdenDiaActividad = (req, res) =>{
 
     const id = req.body.id
-    modelOrdenDia.deleteOrdenDia(id,(data)=>{
+    modelOrdenDiaActividad.deleteOrdenDiaActividad(id,(data)=>{
         if (data && data.affectedRows ===1){
             res.send({
                 status:true,
@@ -107,19 +106,19 @@ const deleteOrdenDia = (req, res) =>{
     })
 }
 
-const updateOrdenDia = (req, res) =>{
-    const {error, value} = actualizarOrdenDia(req.body)
+const updateOrdenDiaActividad = (req, res) =>{
+    const {error, value} = actualizarOrdenDiaActividad(req.body)
     if (error){
         console.log(error.details)
         return res.send(error.details)
     }else {
 
-        const ordenDia = {
+        const ordenDiaActividad = {
             id: req.body.id,
-            asuntoOrdenDia: req.body.asuntoOrdenDia,
-            idActividad: req.body.idActividad,
-            idUsuarioResponsable: req.body.idUsuarioResponsable,
-            hora: req.body.hora,
+            idOrdenDia: req.body.idOrdenDia,
+            horaInicio: req.body.horaInicio,
+            actividad: req.body.actividad,
+            fechaLimite: req.body.fechaLimite,
             idStatus: req.body.idStatus,
             idUsuarioCreo: req.body.idUsuarioCreo,
             fechaCreo: req.body.fechaCreo,
@@ -127,16 +126,16 @@ const updateOrdenDia = (req, res) =>{
             fechaActualizo: req.body.fechaActualizo
         }
 
-        modelOrdenDia.updateOrdenDia(ordenDia, (data) => {
+        modelOrdenDiaActividad.updateOrdenDiaActividad(ordenDiaActividad, (data) => {
             if (data && data.affectedRows ===1){
                 res.send({
                     status:true,
-                    message: 'orden dia actualizado exitosamente'
+                    message: 'actividad del orden dia actualizado exitosamente'
                 })
             }else {
                 res.send({
                     status: false,
-                    message: 'Ocurrio un problema al actualizar el orden dia de la actividad'
+                    message: 'Ocurrio un problema al actualizar la actividad del orden dia'
                 })
             }
         })
@@ -145,11 +144,11 @@ const updateOrdenDia = (req, res) =>{
 
 
 module.exports = {
-    consultOrdenesDia,
-    consultOrdenDiaPorId,
-    consultOrdenDiaPorParametro,
-    insertOrdenDia,
-    deleteOrdenDia,
-    updateOrdenDia
+    consultOrdenesDiaActividad,
+    consultOrdenDiaActividadPorId,
+    consultOrdenDiaActividadPorParametro,
+    insertOrdenDiaActividad,
+    deleteOrdenDiaActividad,
+    updateOrdenDiaActividad
 
 }
