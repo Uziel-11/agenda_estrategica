@@ -105,12 +105,12 @@ const deleteUserDirectorio = (req, res) =>{
         if (data && data.affectedRows ===1){
             res.send({
                 status:true,
-                message: 'eliminada exitosamente'
+                message: 'usuario eliminado exitosamente del directorio'
             })
         }else {
             res.send({
                 status: false,
-                message: 'Ocurrio un problema al eliminar los datos'
+                message: 'Ocurrio un problema al eliminar el usuario del directorio'
             })
         }
     })
@@ -154,7 +154,7 @@ const updateUserDirectorio = (req, res) =>{
         }, err => {
             res.send({
                 status: false,
-                message: "El usuario del directorio no se actualizado "
+                message: "Ocurrio un problema al actualizar los datos del usuario del directorio "
             })
         })
     }

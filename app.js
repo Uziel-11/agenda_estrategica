@@ -14,6 +14,7 @@ var actividadPresencial = require('./routes/actividadPresencial');
 var actividadVirtual = require('./routes/actividadVirtual')
 var directorioRouter = require('./routes/directorio');
 var ordenDiaRouter = require('./routes/ordenDia');
+var usuarioRouter = require('./routes/usuario');
 
 var app = express();
 
@@ -40,6 +41,7 @@ app.use('/actividadPresencial', actividadPresencial);
 app.use('/actividadVirtual', actividadVirtual);
 app.use('/ordenDia', ordenDiaRouter);
 app.use('/directorio',directorioRouter);
+app.use('/usuario',usuarioRouter)
 
 
 
