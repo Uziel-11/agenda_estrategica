@@ -52,6 +52,7 @@ module.exports = {
 
     leerActividadPorParametro:(param, callback) => {
         let sql = 'SELECT * FROM actividad WHERE '+ param[0] + ' = ?';
+        console.log(sql, param[1])
         db.query(sql,param[1], (err, data) => {
             if (err) throw err
             return callback(data)
