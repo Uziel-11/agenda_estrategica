@@ -90,7 +90,7 @@ const leerActividadPorId = (req, res) => {
 }
 
 const leerActividadPorParametro = (req, res) => {
-    let param = req._parsedUrl.query.split("=")
+    let param = req._parsedUrl.query.split('=')
     modelActividad.leerActividadPorParametro(param, (data) => {
         if (data != null){
             res.send({

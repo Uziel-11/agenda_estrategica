@@ -1,4 +1,5 @@
 var express = require("express")
+var router = express.Router();
 const {
     crearActividad,
     actualizarActividad,
@@ -7,7 +8,6 @@ const {
     leerActividadPorId,
     leerActividadPorParametro
 } = require('../controllers/controllerActividad')
-var router = express.Router();
 
 router.post("/crearActividad", crearActividad);
 

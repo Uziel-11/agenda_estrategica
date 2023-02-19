@@ -7,6 +7,11 @@ const cors = require('cors')
 
 var indexRouter = require('./routes/index');
 var actividadRouter = require('./routes/actividad');
+var actividadCometarioRouter = require('./routes/actividadComentario');
+var actividadComentariosArchivoRouter = require('./routes/actividadComentarioArchivo');
+var actividadInvitados = require('./routes/actividadInvitados');
+var actividadPresencial = require('./routes/actividadPresencial');
+var actividadVirtual = require('./routes/actividadVirtual')
 var directorioRouter = require('./routes/directorio');
 var ordenDiaRouter = require('./routes/ordenDia');
 var usuarioRouter = require('./routes/usuario');
@@ -29,6 +34,11 @@ app.use(cors())
 
 app.use('/', indexRouter);
 app.use('/actividad', actividadRouter);
+app.use('/actividadComentario', actividadCometarioRouter);
+app.use('/actComentArchivo', actividadComentariosArchivoRouter);
+app.use('/actividadInvitados', actividadInvitados);
+app.use('/actividadPresencial', actividadPresencial);
+app.use('/actividadVirtual', actividadVirtual);
 app.use('/ordenDia', ordenDiaRouter);
 app.use('/directorio',directorioRouter);
 app.use('/usuario',usuarioRouter)
