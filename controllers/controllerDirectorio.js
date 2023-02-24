@@ -35,23 +35,94 @@ const consultDirectorioPorId = (req,res)=>{
     })
 }
 
-const ConsultUserDirectorioPorParametro = (req, res) => {
-    const param = req._parsedUrl.query.split("=")
+const consultUserDirectorioPorParametro = (req, res) => {
+    //obtenemos el array de objetos llamado filtro
+    const objectsJson = req.body
+    const  elementosJson = (objectsJson['filtro'])
 
-    modelDirectorio.ConsultUserDirectorioPorParametro(param, (data) => {
-        if (data != null){
-            res.send({
-                status: true,
-                data: data
+    //definimos la cantidad de objetos que contiene el array filtro
+    const cantObjetos = Object.keys(elementosJson).length;
+    console.log("cantidad: ",cantObjetos)
+
+
+    let condicion = []
+    let sql=''
+    let datosEvaluar =[]
+
+    //Accedemos a los parametros de acuerdo al numero de objetos
+    Object.keys(elementosJson).forEach(e=>{
+        //guardamos los objetos que vendrian siendo las condiciones
+        condicion.push(elementosJson[e])
+        //console.log(elementosJson[e])
+    })
+
+
+    for (let i = 0; i < condicion.length; i++) {
+        if(cantObjetos==1) {
+            sql = 'SELECT * FROM directorio WHERE ' + condicion[i]['id'] + condicion[i]['filter'] + '?';
+            datosEvaluar.push(condicion[i]['value'])
+            modelDirectorio.consultUserDirectorioPorParametro(sql, datosEvaluar,(data) => {
+                if (data != null) {
+                    res.send({
+                        status: true,
+                        data: data
+                    })
+                } else {
+                    res.send({
+                        status: false,
+                        message: "Ningun dato"
+                    })
+                }
             })
-        }else {
-            res.send({
-                status: false,
-                message: "Data Base is empty"
+        }else if(cantObjetos == 2 && condicion[i]['inheritFilterType'] == "AND" || condicion[i]['inheritFilterType'] == "and"){
+            i=1;
+            sql = 'SELECT * FROM directorio WHERE '+condicion[i-1]['id']+condicion[i-1]['filter']+'?'+' AND '+condicion[i]['id']+condicion[i]['filter']+' ? ';
+
+            datosEvaluar.push(condicion[i-1]['value'])
+            datosEvaluar.push(condicion[i]['value'])
+            console.log(datosEvaluar)
+
+            modelDirectorio.consultUserDirectorioPorParametro(sql, datosEvaluar,(data) => {
+                if (data != null) {
+                    res.send({
+                        status: true,
+                        data: data
+                    })
+                } else {
+                    res.send({
+                        status: false,
+                        message: "Ningun dato"
+                    })
+                }
+            })
+        }else if (cantObjetos == 2 && condicion[i]['inheritFilterType'] == "OR" || condicion[i]['inheritFilterType'] == "or"){
+            i=1;
+            console.log("cantidad de objetos", cantObjetos)
+            sql = 'SELECT * FROM directorio WHERE '+condicion[i-1]['id']+condicion[i-1]['filter']+'?'+' OR '+condicion[i]['id']+condicion[i]['filter']+' ? ';
+
+            datosEvaluar.push(condicion[i-1]['value'])
+            datosEvaluar.push(condicion[i]['value'])
+            console.log(datosEvaluar)
+
+            modelDirectorio.consultUserDirectorioPorParametro(sql, datosEvaluar,(data) => {
+                if (data != null) {
+                    res.send({
+                        status: true,
+                        data: data
+                    })
+                } else {
+                    res.send({
+                        status: false,
+                        message: "Ningun dato"
+                    })
+                }
             })
         }
-    })
+        //i=condicion.length;
+    }
+    //console.log("sale del for")
 }
+
 
 const insertUsuarioDirectorio = (req,res) =>{
     console.log("Insertando usuario en el directorio")
@@ -164,7 +235,7 @@ const updateUserDirectorio = (req, res) =>{
 module.exports = {
     consultDirectorio,
     consultDirectorioPorId,
-    ConsultUserDirectorioPorParametro,
+    consultUserDirectorioPorParametro,
     insertUsuarioDirectorio,
     deleteUserDirectorio,
     updateUserDirectorio

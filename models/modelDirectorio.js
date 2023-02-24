@@ -23,11 +23,24 @@ module.exports = {
         })
     },
 
-    ConsultUserDirectorioPorParametro:(param, callback) => {
-        let sql = 'SELECT * FROM directorio WHERE '+ param[0] + ' = ?';
-        db.query(sql,param[1], (err, data) => {
+    consultUserDirectorioPorParametro:(sql,datosEvaluar,callback) => {
+
+        bd.query(sql,datosEvaluar, (err, data) => {
             if (err) throw err
-            return callback(data)
+            if (data.length>0)
+                callback(data)
+            else
+                callback(null)
+        })
+    },
+    consultUserDirectorioPorParametroTwo:(sql,value,valueTwo,callback) => {
+
+        bd.query(sql,value,valueTwo, (err, data) => {
+            if (err) throw err
+            if (data.length>0)
+                callback(data)
+            else
+                callback(null)
         })
     },
 

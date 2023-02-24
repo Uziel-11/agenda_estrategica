@@ -4,7 +4,7 @@ const
 {
     consultDirectorio,
     consultDirectorioPorId,
-    ConsultUserDirectorioPorParametro,
+    consultUserDirectorioPorParametro,
     insertUsuarioDirectorio,
     deleteUserDirectorio,
     updateUserDirectorio
@@ -17,7 +17,7 @@ var router = express.Router();
 //ruta para el directorio
 router.get('/consultarUsuarios',consultDirectorio);
 router.get('/consultarUsuario',consultDirectorioPorId);
-router.get('/consultarUsuarioPorParametro',ConsultUserDirectorioPorParametro);
+router.get('/consultarUsuarioPorParametro',consultUserDirectorioPorParametro);
 router.post('/agregarUsuario',insertUsuarioDirectorio);
 router.delete('/eliminarUsuario',deleteUserDirectorio);
 router.put('/actualizarUsuario',updateUserDirectorio);
