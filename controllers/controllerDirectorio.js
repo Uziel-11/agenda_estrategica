@@ -35,6 +35,42 @@ const consultDirectorioPorId = (req,res)=>{
     })
 }
 
+const pruebadeconsulta = (req, res) => {
+    let sentencia = []
+    sentencia.push('SELECT * FROM directorio WHERE')
+
+    for (var i = 0; i < req.body.filtro.length; i++){
+        if (req.body.filtro[i]['inheritTypeFilter'] === 'NOT'){
+            sentencia.push(req.body.filtro[i]['inheritTypeFilter'])
+            sentencia.push(req.body.filtro[i]['id'])
+            sentencia.push(req.body.filtro[i]['filter'])
+            sentencia.push("\'" + req.body.filtro[i]['value'] + "\'")
+            sentencia.push(req.body.filtro[i]['inheritTypeFilter2'])
+        }else {
+            sentencia.push(req.body.filtro[i]['id'])
+            sentencia.push(req.body.filtro[i]['filter'])
+            sentencia.push("\'" + req.body.filtro[i]['value'] + "\'")
+            sentencia.push(req.body.filtro[i]['inheritTypeFilter'])
+        }
+    }
+    let sql = sentencia.join(' ')
+    console.log(sql)
+    modelDirectorio.consultUserDirectorioPorParametro(sql, (data) => {
+        if (data != null) {
+            res.send({
+                status: true,
+                data: data
+            })
+        } else {
+            res.send({
+                status: false,
+                message: "Ningun dato"
+            })
+        }
+    })
+
+}
+
 const consultUserDirectorioPorParametro = (req, res) => {
     //obtenemos el array de objetos llamado filtro
     const objectsJson = req.body
@@ -252,5 +288,6 @@ module.exports = {
     consultUserDirectorioPorParametro,
     insertUsuarioDirectorio,
     deleteUserDirectorio,
-    updateUserDirectorio
+    updateUserDirectorio,
+    pruebadeconsulta
 }
