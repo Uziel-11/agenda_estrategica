@@ -39,7 +39,6 @@ const consultUserDirectorioPorParametro = (req, res) => {
     //obtenemos el array de objetos llamado filtro
     const objectsJson = req.body
     const  elementosJson = (objectsJson['filtro'])
-
     //definimos la cantidad de objetos que contiene el array filtro
     const cantObjetos = Object.keys(elementosJson).length;
     console.log("cantidad: ",cantObjetos)
@@ -53,33 +52,50 @@ const consultUserDirectorioPorParametro = (req, res) => {
     Object.keys(elementosJson).forEach(e=>{
         //guardamos los objetos que vendrian siendo las condiciones
         condicion.push(elementosJson[e])
-        //console.log(elementosJson[e])
-    })
-
-
-    for (let i = 0; i < condicion.length; i++) {
+        console.log(elementosJson[e]['id']+elementosJson[e]['filter']+elementosJson[e]['value'])
         if(cantObjetos==1) {
-            sql = 'SELECT * FROM directorio WHERE ' + condicion[i]['id'] + condicion[i]['filter'] + '?';
-            datosEvaluar.push(condicion[i]['value'])
-            modelDirectorio.consultUserDirectorioPorParametro(sql, datosEvaluar,(data) => {
-                if (data != null) {
-                    res.send({
-                        status: true,
-                        data: data
-                    })
-                } else {
-                    res.send({
-                        status: false,
-                        message: "Ningun dato"
-                    })
-                }
-            })
-        }else if(cantObjetos == 2 && condicion[i]['inheritFilterType'] == "AND" || condicion[i]['inheritFilterType'] == "and"){
-            i=1;
-            sql = 'SELECT * FROM directorio WHERE '+condicion[i-1]['id']+condicion[i-1]['filter']+'?'+' AND '+condicion[i]['id']+condicion[i]['filter']+' ? ';
+            if(typeof elementosJson[e]['value'] == "string" && elementosJson[e]['filter']=="="){
+                sql = 'SELECT * FROM directorio WHERE ' + elementosJson[e]['id'] +' LIKE '+'?';
+                datosEvaluar.push(elementosJson[e]['value']+'%')
 
-            datosEvaluar.push(condicion[i-1]['value'])
-            datosEvaluar.push(condicion[i]['value'])
+                modelDirectorio.consultUserDirectorioPorParametro(sql, datosEvaluar,(data) => {
+                    if (data != null) {
+                        res.send({
+                            status: true,
+                            data: data
+                        })
+                    } else {
+                        res.send({
+                            status: false,
+                            message: "Ningun dato"
+                        })
+                    }
+                })
+            }else {
+                sql = 'SELECT * FROM directorio WHERE ' + elementosJson[e]['id'] +elementosJson[e]['filter']+ '?';
+                datosEvaluar.push(elementosJson[e]['value'])
+
+                modelDirectorio.consultUserDirectorioPorParametro(sql, datosEvaluar,(data) => {
+                    if (data != null) {
+                        res.send({
+                            status: true,
+                            data: data
+                        })
+                    } else {
+                        res.send({
+                            status: false,
+                            message: "Ningun dato"
+                        })
+                    }
+                })
+            }
+
+        }else if(cantObjetos == 2 && elementosJson[e]['inheritFilterType'] == "AND" || elementosJson[e]['inheritFilterType'] == "and"){
+            e=1;
+            sql = 'SELECT * FROM directorio WHERE '+elementosJson[e-1]['id']+elementosJson[e-1]['filter']+'?'+' AND '+elementosJson[e]['id']+elementosJson[e]['filter']+' ? ';
+
+            datosEvaluar.push(elementosJson[e-1]['value'])
+            datosEvaluar.push(elementosJson[e]['value'])
             console.log(datosEvaluar)
 
             modelDirectorio.consultUserDirectorioPorParametro(sql, datosEvaluar,(data) => {
@@ -95,13 +111,13 @@ const consultUserDirectorioPorParametro = (req, res) => {
                     })
                 }
             })
-        }else if (cantObjetos == 2 && condicion[i]['inheritFilterType'] == "OR" || condicion[i]['inheritFilterType'] == "or"){
-            i=1;
+        }else if (cantObjetos == 2 && elementosJson[e]['inheritFilterType'] == "OR" || elementosJson[e]['inheritFilterType'] == "or"){
+            e=1;
             console.log("cantidad de objetos", cantObjetos)
-            sql = 'SELECT * FROM directorio WHERE '+condicion[i-1]['id']+condicion[i-1]['filter']+'?'+' OR '+condicion[i]['id']+condicion[i]['filter']+' ? ';
+            sql = 'SELECT * FROM directorio WHERE '+elementosJson[e-1]['id']+elementosJson[e-1]['filter']+'?'+' OR '+elementosJson[e]['id']+elementosJson[e]['filter']+' ? ';
 
-            datosEvaluar.push(condicion[i-1]['value'])
-            datosEvaluar.push(condicion[i]['value'])
+            datosEvaluar.push(elementosJson[e-1]['value'])
+            datosEvaluar.push(elementosJson[e]['value'])
             console.log(datosEvaluar)
 
             modelDirectorio.consultUserDirectorioPorParametro(sql, datosEvaluar,(data) => {
@@ -118,9 +134,7 @@ const consultUserDirectorioPorParametro = (req, res) => {
                 }
             })
         }
-        //i=condicion.length;
-    }
-    //console.log("sale del for")
+    })
 }
 
 

@@ -30,6 +30,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors())
 
 
+
 //servidor recibe la ruta
 
 app.use('/', indexRouter);
