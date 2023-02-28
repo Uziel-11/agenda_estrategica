@@ -35,7 +35,7 @@ const consultDirectorioPorId = (req,res)=>{
     })
 }
 
-const pruebadeconsulta = (req, res) => {
+const filtro = (req, res) => {
     let sentencia = []
     sentencia.push('SELECT * FROM directorio WHERE')
 
@@ -289,5 +289,5 @@ module.exports = {
     insertUsuarioDirectorio,
     deleteUserDirectorio,
     updateUserDirectorio,
-    pruebadeconsulta
+    filtro
 }

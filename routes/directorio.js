@@ -4,10 +4,10 @@ const
 {
     consultDirectorio,
     consultDirectorioPorId,
-    consultUserDirectorioPorParametro,
+    filtro,
     insertUsuarioDirectorio,
     deleteUserDirectorio,
-    updateUserDirectorio, pruebadeconsulta
+    updateUserDirectorio,
 
 } = require('../controllers/controllerDirectorio');
 
@@ -17,7 +17,7 @@ var router = express.Router();
 //ruta para el directorio
 router.get('/consultarUsuarios',consultDirectorio);
 router.get('/consultarUsuario',consultDirectorioPorId);
-router.get('/consultarUsuarioPorParametro',pruebadeconsulta);
+router.get('/filtrarUsuarios', filtro);
 router.post('/agregarUsuario',insertUsuarioDirectorio);
 router.delete('/eliminarUsuario',deleteUserDirectorio);
 router.put('/actualizarUsuario',updateUserDirectorio);
