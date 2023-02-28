@@ -23,7 +23,7 @@ module.exports = {
         })
     },
 
-    consultUserDirectorioPorParametro:(sql,callback) => {
+    filtroUsuarios:(sql, callback) => {
         bd.query(sql, (err, data) => {
             if (err) throw err
             if (data.length>0)
