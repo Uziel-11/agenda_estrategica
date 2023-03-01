@@ -89,7 +89,6 @@ const consultUserDirectorioPorParametro = (req, res) => {
                     }
                 })
             }
-
         }else if(cantObjetos == 2 && elementosJson[e]['inheritFilterType'] == "AND" || elementosJson[e]['inheritFilterType'] == "and"){
             e=1;
             sql = 'SELECT * FROM directorio WHERE '+elementosJson[e-1]['id']+elementosJson[e-1]['filter']+'?'+' AND '+elementosJson[e]['id']+elementosJson[e]['filter']+' ? ';
