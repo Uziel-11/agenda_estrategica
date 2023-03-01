@@ -35,6 +35,42 @@ const consultDirectorioPorId = (req,res)=>{
     })
 }
 
+const filtroUsuarios = (req, res) => {
+    let sentencia = []
+    sentencia.push('SELECT * FROM directorio WHERE')
+
+    for (var i = 0; i < req.body.filtro.length; i++){
+        if (req.body.filtro[i]['inheritTypeFilter'] === 'NOT'){
+            sentencia.push(req.body.filtro[i]['inheritTypeFilter'])
+            sentencia.push(req.body.filtro[i]['id'])
+            sentencia.push(req.body.filtro[i]['filter'])
+            sentencia.push("\'" + req.body.filtro[i]['value'] + "\'")
+            sentencia.push(req.body.filtro[i]['inheritTypeFilter2'])
+        }else {
+            sentencia.push(req.body.filtro[i]['id'])
+            sentencia.push(req.body.filtro[i]['filter'])
+            sentencia.push("\'" + req.body.filtro[i]['value'] + "\'")
+            sentencia.push(req.body.filtro[i]['inheritTypeFilter'])
+        }
+    }
+    let sql = sentencia.join(' ')
+    console.log(sql)
+    modelDirectorio.filtroUsuarios(sql, (data) => {
+        if (data != null) {
+            res.send({
+                status: true,
+                data: data
+            })
+        } else {
+            res.send({
+                status: false,
+                message: "Ningun dato"
+            })
+        }
+    })
+
+}
+
 const consultUserDirectorioPorParametro = (req, res) => {
     //obtenemos el array de objetos llamado filtro
     const objectsJson = req.body
@@ -58,7 +94,7 @@ const consultUserDirectorioPorParametro = (req, res) => {
                 sql = 'SELECT * FROM directorio WHERE ' + elementosJson[e]['id'] +' LIKE '+'?';
                 datosEvaluar.push(elementosJson[e]['value']+'%')
 
-                modelDirectorio.consultUserDirectorioPorParametro(sql, datosEvaluar,(data) => {
+                modelDirectorio.filtroUsuarios(sql, datosEvaluar,(data) => {
                     if (data != null) {
                         res.send({
                             status: true,
@@ -75,7 +111,7 @@ const consultUserDirectorioPorParametro = (req, res) => {
                 sql = 'SELECT * FROM directorio WHERE ' + elementosJson[e]['id'] +elementosJson[e]['filter']+ '?';
                 datosEvaluar.push(elementosJson[e]['value'])
 
-                modelDirectorio.consultUserDirectorioPorParametro(sql, datosEvaluar,(data) => {
+                modelDirectorio.filtroUsuarios(sql, datosEvaluar,(data) => {
                     if (data != null) {
                         res.send({
                             status: true,
@@ -97,7 +133,7 @@ const consultUserDirectorioPorParametro = (req, res) => {
             datosEvaluar.push(elementosJson[e]['value'])
             console.log(datosEvaluar)
 
-            modelDirectorio.consultUserDirectorioPorParametro(sql, datosEvaluar,(data) => {
+            modelDirectorio.filtroUsuarios(sql, datosEvaluar,(data) => {
                 if (data != null) {
                     res.send({
                         status: true,
@@ -119,7 +155,7 @@ const consultUserDirectorioPorParametro = (req, res) => {
             datosEvaluar.push(elementosJson[e]['value'])
             console.log(datosEvaluar)
 
-            modelDirectorio.consultUserDirectorioPorParametro(sql, datosEvaluar,(data) => {
+            modelDirectorio.filtroUsuarios(sql, datosEvaluar,(data) => {
                 if (data != null) {
                     res.send({
                         status: true,
@@ -251,5 +287,6 @@ module.exports = {
     consultUserDirectorioPorParametro,
     insertUsuarioDirectorio,
     deleteUserDirectorio,
-    updateUserDirectorio
+    updateUserDirectorio,
+    filtroUsuarios
 }
