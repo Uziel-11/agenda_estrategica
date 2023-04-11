@@ -59,22 +59,28 @@ const leerActividades = (req, res) => {
 
 
 const eliminarActividad = (req, res) => {
-    modelActividad.eliminarActividad(req.params.id, (data) => {
-        res.send({
-            status: true,
-            message: "Was deleted correctly" + req.params.id
-        })
-    }, err => {
-        res.send({
-            status: false,
-            message: "Was deleted incorrect" + err
-        })
+    const id = req.body.id
+    console.log("ID", id)
+    modelActividad.eliminarActividad(id, (data) => {
+        if (data && data.affectedRows ===1){
+            res.send({
+                status:true,
+                message: 'actividad eliminada correctamente'
+            })
+        }else {
+            res.send({
+                status: false,
+                message: 'Ocurrio un problema al eliminar la actividad'
+            })
+        }
     })
 }
 
-const leerActividadPorId = (req, res) => {
-    console.log(req.params)
-    modelActividad.leerActividadPorId(req.params.id, (data) => {
+
+const consultIdActividad = (req, res) => {
+    const titulo =  req.body.titulo;
+    console.log(titulo)
+    modelActividad.consultIdActividad(titulo, (data) => {
         if (data != null){
             res.send({
                 status: true,
@@ -84,6 +90,42 @@ const leerActividadPorId = (req, res) => {
             res.send({
                 status: false,
                 message: "Data Base is empty"
+            })
+        }
+    })
+}
+
+const leerActividadPorId = (req, res) => {
+    const id = req.body.id;
+
+    modelActividad.leerActividadPorId(id, (data) => {
+        if (data != null){
+            res.send({
+                status: true,
+                data: data
+            })
+        }else {
+            res.send({
+                status: false,
+                message: "Data Base is empty"
+            })
+        }
+    })
+}
+
+const leerActividadPorIdUsuario = (req, res) => {
+    const idUsuarioCreo =  req.body.idUsuarioCreo;
+    console.log(idUsuarioCreo)
+    modelActividad.leerActividadPorIdUsuario(idUsuarioCreo, (data) => {
+        if (data != null) {
+            res.send({
+                status: true,
+                data: data
+            })
+        }else {
+            res.send({
+                status: false,
+                message: "Ningun dato"
             })
         }
     })
@@ -146,5 +188,7 @@ module.exports = {
     leerActividades,
     actualizarActividad,
     leerActividadPorId,
-    leerActividadPorParametro
+    leerActividadPorParametro,
+    consultIdActividad,
+    leerActividadPorIdUsuario
 }

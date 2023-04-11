@@ -12,7 +12,7 @@ router.post("/crearActVirtual", crearActVirtual);
 
 router.put("/actualizarActVirtual/:id", actualizarActVirtual);
 
-router.post("/eliminarActVirtual/:id", eliminarActVirtual);
+router.post("/eliminarActVirtual", eliminarActVirtual);
 
 router.get("/leerActVirtual", leerActVirtual);
 

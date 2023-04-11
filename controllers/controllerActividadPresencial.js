@@ -1,7 +1,8 @@
 const modelActividadPresencial = require('../models/modelActividadPresencial');
+const {request} = require("express");
 
 const crearActPresencial = (req, res) => {
-    const comentario = {
+    const presencial = {
         idActividad: req.body.idActividad,
         lugar: req.body.lugar,
         colonia: req.body.colonia,
@@ -17,16 +18,18 @@ const crearActPresencial = (req, res) => {
         fechaActualizo: req.body.fechaActualizo
     }
 
-    modelActividadPresencial.crearActPresencial(comentario, (data) => {
-        res.send({
-            status: true,
-            message: 'The Message is added correctly'
-        })
-    }, err => {
-        res.send({
-            status: false,
-            message: 'The Message was not added'
-        })
+    modelActividadPresencial.crearActPresencial(presencial, (data) => {
+        if (data && data.affectedRows ===1){
+            res.send({
+                status:true,
+                message: 'registrado exitosamente'
+            })
+        }else {
+            res.send({
+                status: false,
+                message: 'Ocurrio un problema al registrar'
+            })
+        }
     })
 }
 
@@ -47,16 +50,19 @@ const leerActPresencial = (req, res) => {
 }
 
 const eliminarActPresencial = (req, res) => {
-    modelActividadPresencial.eliminarActPresencial(req.params.id, (data) =>{
-        res.send({
-            status: true,
-            message: "Was deleted correctly" + req.params.id
-        })
-    }, err => {
-        res.send({
-            status: false,
-            message: "Was deleted incorrect" + err
-        })
+    const idActividad = req.body.idActividad;
+    modelActividadPresencial.eliminarActPresencial(idActividad, (data) =>{
+        if (data && data.affectedRows ===1){
+            res.send({
+                status:true,
+                message: 'eliminada correctamente'
+            })
+        }else {
+            res.send({
+                status: false,
+                message: 'Ocurrio un problema al eliminar '
+            })
+        }
     })
 }
 

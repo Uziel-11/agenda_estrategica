@@ -2,20 +2,30 @@ const db = require('../configMysql')
 
 module.exports = {
 
-    crearActPresencial: (datos, callback) => {
+    crearActPresencial: (presencial, callback) => {
         let sql = 'INSERT INTO actividad_presencial SET ?'
-        db.query(sql, datos, (err, data) => {
-            if (err) throw err;
-            return callback(data);
+        db.query(sql, presencial, (err, data) => {
+            if(err)
+                //Si hay error entonces la isnsercion no fue exitosa
+                //en vez de tronar retorno un null
+                return callback(null)
+            else
+                //Hay un data y lo retornamos
+                return callback(data)
         })
     },
 
-    eliminarActPresencial: (id, callback) => {
-        let sql = 'DELETE FROM actividad_presencial WHERE id = ?';
+    eliminarActPresencial: (idActividad, callback) => {
+        let sql = 'DELETE FROM actividad_presencial WHERE idActividad = ?';
 
-        db.query(sql, id, (err, data) =>{
-            if (err) throw err;
-            return callback(data);
+        db.query(sql, idActividad, (err, data) =>{
+            if(err)
+                //Si hay error entonces la insercion no fue exitosa
+                //en vez de tronar retorno un null
+                return callback(null)
+            else
+                //Hay un data y lo retornamos
+                return callback(data)
         })
     },
 

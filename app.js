@@ -16,6 +16,9 @@ var directorioRouter = require('./routes/directorio');
 var ordenDiaRouter = require('./routes/ordenDia');
 var usuarioRouter = require('./routes/usuario');
 var filtroRouter = require('./routes/filtro');
+var municipioRouter = require('./routes/municipio');
+var cargoRouter = require('./routes/cargo');
+
 
 var app = express();
 
@@ -45,6 +48,9 @@ app.use('/ordenDia', ordenDiaRouter);
 app.use('/directorio',directorioRouter);
 app.use('/usuario',usuarioRouter);
 app.use('/filtro',filtroRouter);
+app.use('/municipio',municipioRouter);
+app.use('/cargo',cargoRouter);
+
 
 
 

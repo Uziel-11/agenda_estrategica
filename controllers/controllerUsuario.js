@@ -3,19 +3,19 @@ const {insertUsuario} = require('../schemas/schemaUsuario')
 const {updateUsuario} = require('../schemas/schemaUsuario')
 
 const inicioSesionUsuario = (req, res) => {
-    modelUsuario.inicioSesionUsuario(req.body.userName,req.body.password,(data)=>{
+    modelUsuario.inicioSesionUsuario(req.body.correo,req.body.password,(data)=>{
         //Metodo callback retorma el valor del modelo UserDAO
-        try{
-            if(!data)throw new Err("Ups, algo salio mal... si usted no tiene una cuenta registrese")
-            console.log('Data===>', data)
-            res.send({  //Enviamos response
+        console.log("correo ",req.correo," password: ",req.password)
+
+        if ( data != null){
+            res.send({
                 status: true,
-                message:'Inicio de sesion correcta'
+                message:"Inicio de sesion exitoso"
             })
-        }catch (Err){
-            res.send({ //Enviamos response
-                status:false,
-                message:'Datos incorrectos, revise correctamente sus datos'
+        }else {
+            res.send({
+                status: false,
+                message: "Verifique si sus datos son correctos"
             })
         }
     })
@@ -47,19 +47,32 @@ const  registrarUsuario = (req,res)=>{
             direcccion: req.body.direcccion
         }
 
-        //Mandamos a llamar el metodo insertClient del modelo
-        modelUsuario.insertarUsuario(user, (data) => {
-            //si esta referenciado y ha sido afectado 1 fila
-            if (data && data.affectedRows === 1) {
-                console.log('data==> ', data)
+
+        modelUsuario.inicioSesionUsuario(req.body.correo,req.body.password,(data)=>{
+            //Metodo callback retorma el valor del modelo UserDAO
+            console.log("correo ",req.correo," password: ",req.password)
+
+            if ( data != null){
                 res.send({
                     status: true,
-                    message: 'usuario registrado exitosamente'
+                    message:"La cuenta ya existe"
                 })
-            } else {
-                res.send({
-                    status: false,
-                    message: 'Ocurrio un problema en el registro'
+            }else {
+                //Mandamos a llamar el metodo insertClient del modelo
+                modelUsuario.insertarUsuario(user, (data) => {
+                    //si esta referenciado y ha sido afectado 1 fila
+                    if (data && data.affectedRows === 1) {
+                        console.log('data==> ', data)
+                        res.send({
+                            status: true,
+                            message: 'usuario registrado exitosamente'
+                        })
+                    } else {
+                        res.send({
+                            status: false,
+                            message: 'Ocurrio un problema en el registro'
+                        })
+                    }
                 })
             }
         })
@@ -81,6 +94,27 @@ const consultUser = (req,res)=>{
         }
     })
 }
+
+
+const consultUserId = (req, res) => {
+    const correo = req.body.correo;
+
+
+    modelUsuario.consultUserId(correo, (data) => {
+        if (data != null) {
+            res.send({
+                status: true,
+                data: data
+            })
+        }else {
+            res.send({
+                status: false,
+                message: "Ningun dato"
+            })
+        }
+    })
+}
+
 
 const updateUser = (req, res) =>{
     const {error, value} = updateUsuario(req.body)
@@ -130,6 +164,7 @@ const updateUser = (req, res) =>{
 module.exports = {
     inicioSesionUsuario,
     registrarUsuario,
+    consultUserId,
     consultUser,
     updateUser
 }

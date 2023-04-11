@@ -12,7 +12,7 @@ router.post("/crearActPresencial", crearActPresencial);
 
 router.put("/actualizarActPresencial/:id", actualizarActPresencial);
 
-router.post("/eliminarActPresencial/:id", eliminarActPresencial);
+router.post("/eliminarActPresencial", eliminarActPresencial);
 
 router.get("/leerActPresencial", leerActPresencial);
 

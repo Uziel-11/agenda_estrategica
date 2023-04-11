@@ -1,9 +1,9 @@
 const modelActividadVirtual = require('../models/modelActividadVirtual')
 
 const crearActVirtual = (req, res) => {
-    const datos = {
+    const virtual = {
         idActividad: req.body.idActividad,
-        link: req.body.url,
+        linkReunion: req.body.linkReunion,
         producto: req.body.producto,
         idUsuarioCreo: req.body.idUsuarioCreo,
         fechaCreo: req.body.fechaCreo,
@@ -11,16 +11,19 @@ const crearActVirtual = (req, res) => {
         fechaActualizo: req.body.fechaActualizo
     }
 
-    modelActividadVirtual.crearActVirtual(datos, (data) => {
-        res.send({
-            status: true,
-            message: 'The Message is added correctly'
-        })
-    }, err => {
-        res.send({
-            status: false,
-            message: 'The Message was not added'
-        })
+    console.log(virtual)
+    modelActividadVirtual.crearActVirtual(virtual, (data) => {
+        if (data && data.affectedRows ===1){
+            res.send({
+                status:true,
+                message: 'registrado exitosamente'
+            })
+        }else {
+            res.send({
+                status: false,
+                message: 'Ocurrio un problema al registrar'
+            })
+        }
     })
 }
 
@@ -66,16 +69,20 @@ const actualizarActVirtual = (req, res) => {
 
 
 const eliminarActVirtual = (req, res) => {
-    modelActividadVirtual.eliminarActVirtual(req.params.id, (data) => {
-        res.send({
-            status: true,
-            message: "Was deleted correctly" + req.params.id
-        })
-    }, err => {
-        res.send({
-            status: false,
-            message: "Was deleted incorrect" + err
-        })
+    const idActividad = req.body.idActividad;
+    console.log("idActividad: ",idActividad)
+    modelActividadVirtual.eliminarActVirtual(idActividad, (data) => {
+        if (data && data.affectedRows ===1){
+            res.send({
+                status:true,
+                message: 'actividad eliminada correctamente'
+            })
+        }else {
+            res.send({
+                status: false,
+                message: 'Ocurrio un problema al eliminar la actividad'
+            })
+        }
     })
 }
 

@@ -5,7 +5,8 @@ const
         consultUser,
         registrarUsuario,
         inicioSesionUsuario,
-        updateUser
+        updateUser,
+        consultUserId
 
     } = require('../controllers/controllerUsuario');
 
@@ -17,6 +18,7 @@ router.get('/consultarUsuario',consultUser);
 router.post('/registrarUsuario',registrarUsuario);
 router.post('/inicioSesionUsuario',inicioSesionUsuario);
 router.post('/actualizarUsuario',updateUser);
+router.post('/consultarIdUsuario',consultUserId);
 
 
 module.exports = router;

@@ -18,6 +18,8 @@ const consultDirectorio = (req,res)=>{
     })
 }
 
+
+
 const consultDirectorioPorId = (req,res)=>{
     const id = req.body.id
     modelDirectorio.consultDirectorioPorId(id, (data)=>{

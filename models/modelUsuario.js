@@ -1,15 +1,16 @@
 const bd = require('../configMysql')
 
 module.exports = {
-    inicioSesionUsuario: (userName, password, callback) => {
+
+    inicioSesionUsuario: (correo, password, callback) => {
         //Checamos si el username y password existen
-        let sql = 'SELECT * FROM usuario WHERE userName=? and password=? '
-        bd.query(sql,[userName, password],(err, data) => {
-            if (err) throw err //si hay error se da a mostrar
-            if (data.length>0)  //si la sentencia sql es >0 entonces el usuario existe y lo retornamos
-                callback(data[0])
+        let sql = 'SELECT * FROM usuario WHERE correo=? and password=? '
+        bd.query(sql,[correo, password],(err, data) => {
+
+            if (err) throw err
+            if (data.length>0)
+                callback(data)
             else
-                //si no hay data enviamos null
                 callback(null)
         })
     },
@@ -30,6 +31,18 @@ module.exports = {
     consultUser: (callback)=>{
         let sql = 'SELECT * FROM usuario'
         bd.query(sql, (err, data) => {
+            if (err) throw err
+            if (data.length>0)
+                callback(data)
+            else
+                callback(null)
+        })
+    },
+
+    consultUserId: (correo, callback) => {
+        let sql = 'SELECT id FROM usuario WHERE correo=?'
+
+        bd.query(sql,correo,(err, data) => {
             if (err) throw err
             if (data.length>0)
                 callback(data)

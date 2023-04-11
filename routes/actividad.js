@@ -6,19 +6,27 @@ const {
     eliminarActividad,
     leerActividades,
     leerActividadPorId,
-    leerActividadPorParametro
+    leerActividadPorParametro,
+    consultIdActividad,
+    leerActividadPorIdUsuario
+
+
 } = require('../controllers/controllerActividad')
 
 router.post("/crearActividad", crearActividad);
 
 router.put("/actualizarActividad/:id", actualizarActividad);
 
-router.post("/eliminarActividad/:id", eliminarActividad);
+router.post("/eliminarActividad", eliminarActividad);
 
 router.get("/leerActividades", leerActividades);
 
-router.get("/leerActividad/:id", leerActividadPorId)
+router.post("/leerActividad", leerActividadPorId)
 
 router.get("/filtrarPorParametro", leerActividadPorParametro)
+
+router.post("/consultIdActividad",consultIdActividad)
+
+router.post("/leerActividadPorIdUsuario",leerActividadPorIdUsuario)
 
 module.exports = router;

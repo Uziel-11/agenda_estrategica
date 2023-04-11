@@ -12,7 +12,7 @@ router.post("/crearInvitado", crearInvitado);
 
 router.put("/actualizarInvitado/:id", actualizarInvitado);
 
-router.post("/eliminarInvitado/:id", eliminarInvitado);
+router.post("/eliminarInvitado", eliminarInvitado);
 
 router.get("/leerInvitados", leerInvitados);
 
